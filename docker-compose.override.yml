@@ -1,0 +1,19 @@
+services:
+  apidockerize:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8084:8084"
+    command: >
+      dotnet WebAppDockerize.dll --urls http://+:8084
+
+
+
+# services:
+#   apidockerize:
+#     environment:
+#       - ASPNETCORE_ENVIRONMENT=Development
+#     ports:
+#       - "8084:8084"
+#     command: >
+#       dotnet WebAppDockerize.dll --urls http://+:8084

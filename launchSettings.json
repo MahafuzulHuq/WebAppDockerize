@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "applicationUrl": "http://localhost:8084",
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "webappdockerize": "StartDebugging"
+      }
+    }
+  }
+}

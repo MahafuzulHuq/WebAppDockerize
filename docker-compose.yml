@@ -1,0 +1,26 @@
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    environment:
+      SA_PASSWORD: "TestPassword123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes: 
+      - ./backup:/var/opt/mssql/backups
+
+  apidockerize:
+    build:
+      context: .
+      dockerfile: WebAppDockerize/Dockerfile
+    container_name: apidockerize
+    depends_on:
+      - sqlserver
+    environment:
+      - ConnectionStrings__Default=Server=sqlserver;Database=WebAppDeckerize;User Id=sa;Password=TestPassword123;Encrypt=False;TrustServerCertificate=True;
+    ports:
+      - "8000:8084"
+      - "8001:8081"
+
+       
