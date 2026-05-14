@@ -1,142 +1,75 @@
-# WebAPIPrime - Project Information
+# WebAppDockerize - Project Information
+  
+Overview
+- ASP.NET Core web application targeting .NET 9 (net9.0).
+- Razor/Views-based web UI with static assets in `wwwroot`.
+- Project is configured for containerization with Visual Studio container tools and Docker Compose.
 
-## Overview
-WebAPIPrime is an ASP.NET Web API project implemented in C# targeting .NET 10. It provides order/product/inventory management with MediatR-based handlers and an EF Core-backed `AppDbContext`.
+Key information
+- Project path (workspace): F:\VS2026Projects\DockerizeProjects\WebAppDockerize
+- Repository remote: https://github.com/MahafuzulHuq/WebAppDockerize (branch: main)
+- Project file: `WebAppDockerize/WebAppDockerize.csproj`
+- Notable NuGet packages (from csproj): EF Core, EF Core SQL Server, Swashbuckle (Swagger), Visual Studio Azure Containers tools.
 
-## Key Details
-- Project name: `WebAPIPrime`
-- Language: C# (version 14)
-- Target framework: .NET 10
-- IDE: Microsoft Visual Studio Community 2026 (18.4.3)
-- Workspace root: `F:\VS2026Projects\WebAPIPrime` (local workspace)
-- Git: repository at `https://github.com/MahafuzulHuq/WebAPIPrime`, active branch: `master`
+Getting started (local)
+1. Prerequisites
+   - .NET 9 SDK
+   - Docker Desktop (or another Docker runtime)
+   - Microsoft Visual Studio 2026 (recommended for integrated container support)
 
-## Repository structure (high-level)
-- `Controllers/` - API controllers (e.g. `OrderController.cs`, `ProductController.cs`)
-- `Services/` - Business/service layer and MediatR handlers (e.g. `ProductService.cs`, `InventoryService.cs`, `Services/Orders/`)
-- `Data/` - EF Core `AppDbContext` and data models
-- `Models/` - Domain models (e.g. `Product`, `Order`, `Inventory`, `EmailJob`)
-- `Modelsdto/` - DTOs
-- `Middleware/` - custom middleware (e.g. `ApiKeyAuth`)
+2. Run without containers
+   - From solution root:
+     - dotnet restore
+     - dotnet build
+     - dotnet run --project WebAppDockerize\WebAppDockerize.csproj
+   - App will listen on the configured ASP.NET Core ports (see `appsettings.*` or launch profile).
 
-## Important open files (developer session)
-- `Services/Orders/Queries/GetOrderByQuery.cs`
-- `Services/Orders/Commands/CreateOrderCommand.cs`
-- `Services/Orders/Commands/CreateOrderResult.cs`
-- `Services/Orders/Handlers/GetOrderQueryHandler.cs`
-- `Services/Orders/Handlers/CreateOrderCommandHandler.cs` (active)
-- `Controllers/OrderController.cs`
-- `Services/Service/OrderService.cs`
-- `Controllers/ProductController.cs`
-- `Services/ProductService.cs`
-- `Services/InventoryService.cs`
+3. Run with Docker (CLI)
+   - Build an image (adjust Dockerfile path if different):
+     - docker build -t webappdockerize:dev -f WebAppDockerize/Dockerfile .
+   - Run the container:
+     - docker run -p 8080:80 --env ASPNETCORE_ENVIRONMENT=Development webappdockerize:dev
+   - If a `docker-compose.yml` exists:
+     - docker compose up --build -d
 
-## Observations & notes
-- MediatR is used for request/response flows in `ProductService` and orders handling.
-- Inventory is modeled as a transaction log (`Inventory` entries store balance and deltas).
-- Several service handlers create inventory entries and should use transactions to keep `Product` and `Inventory` updates atomic.
-- The project uses EF Core async APIs and should `await` tasks like `AnyAsync`, `FirstOrDefaultAsync`, and `SaveChangesAsync`.
+4. Run from Visual Studio
+   - Open the solution in Visual Studio 2026.
+   - Choose the __Docker__ or __Docker Compose__ run profile and press F5.
+   - Container output and logs are visible in the __Output__ window and the __Containers__ tool windows.
 
-## Design patterns used
+Swagger and API docs
+- Swashbuckle packages are included; if Swagger is enabled in startup code, visit `/swagger` (or configured path) to view API docs.
 
-- Mediator (via `MediatR`) — decouples request senders from handlers (commands/queries).
-- CQRS (Command / Query separation) — commands and queries are represented by separate MediatR requests.
-- Dependency Injection — services, DbContext and handlers are registered and injected by the DI container.
-- Repository / Unit of Work (EF Core `AppDbContext`) — DbContext acts as the unit-of-work and data access.
-- DTO (Data Transfer Object) pattern — `ProductDto` and other DTOs are used for API contracts.
-- Mapping (AutoMapper) — maps DTOs to domain models and back.
-- Transaction pattern — explicit database transactions are used when updating `Product` and `Inventory` together.
-- Hosted Service / Background Worker — background email processing implemented as a hosted service.
-- Health check pattern — application exposes health endpoints and can plug into `IHealthCheck` implementations.
+Database and EF Core
+- EF Core packages are referenced (including SQL Server provider).
+- Configure your connection string in `appsettings.Development.json` or environment variables.
+- Typical EF Core workflow:
+  - dotnet tool install --global dotnet-ef
+  - dotnet ef migrations add InitialCreate --project WebAppDockerize\WebAppDockerize.csproj
+  - dotnet ef database update --project WebAppDockerize\WebAppDockerize.csproj
 
-## Build & Run (local)
-1. Open the solution in Visual Studio 2026.
-2. Restore NuGet packages (Visual Studio usually restores automatically).
-3. Build: `dotnet build` (from solution directory)
-4. Run: `dotnet run --project <project.csproj>` or press F5 in Visual Studio.
+Project structure (high level)
+- `WebAppDockerize/`
+  - `Controllers` / `Views` / `Pages` (UI)
+  - `wwwroot` (static files: css, js, images)
+  - `appsettings*.json` (configuration)
+  - `Dockerfile`, `docker-compose.yml` (if present) — containerization artifacts
 
-## Common commands (PowerShell)
-- Build: `dotnet build` 
-- Run tests (if present): `dotnet test`
-- Run app: `dotnet run --project WebAPIPrime.csproj`
+Development tips
+- Use the __Output__ window for build and container logs when debugging from Visual Studio.
+- When working with EF Core migrations, run commands from the project directory or specify the `--project` and `--startup-project` flags.
+- Expose and map ports explicitly during docker run to avoid conflicts (e.g., `-p 8080:80`).
 
-## Database migrations and seeding
+Contributing
+- Create feature branches off `main`.
+- Follow repository coding conventions and add/update migrations when schema changes are made.
+- Open pull requests that describe the change and how to run/test it.
 
-Use EF Core tools to add and apply migrations and to seed the database.
+Contact / repo
+- Remote origin: https://github.com/MahafuzulHuq/WebAppDockerize
+- Workspace root: F:\VS2026Projects\DockerizeProjects\WebAppDockerize
 
-1. Install the tools (if not already installed):
-
-   dotnet tool install --global dotnet-ef
-
-2. Add a migration from the solution root (adjust project path if needed):
-
-   dotnet ef migrations add InitialCreate --project WebAPIPrime.csproj --startup-project WebAPIPrime.csproj
-
-3. Apply migrations to the configured database:
-
-   dotnet ef database update --project WebAPIPrime.csproj --startup-project WebAPIPrime.csproj
-
-4. Seed data: add a seeding routine in `AppDbContext` or in Program/Main. Example approach:
-
-   - In `Program.cs`, after building the app, create a scope and call a seed helper:
-
-     using var scope = app.Services.CreateScope();
-     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-     await DbSeed.InitializeAsync(db);
-
-   - Implement `DbSeed.InitializeAsync(AppDbContext)` to add initial `Products`, `Orders`, and `Inventory` entries only when tables are empty and call `SaveChanges()`.
-
-Note: For development, use a local SQL Server / SQLite connection string configured in `appsettings.Development.json`.
-
-## Health checks
-
-This project includes a simple health endpoint that verifies the application can connect to the database and returns counts for `Orders` and `Inventory`.
-
-Endpoint: GET `/health`
-
-Response example (200):
-
-{
-  "status": "Healthy",
-  "orders": 12,
-  "inventory": 42
-}
-
-If the database is unreachable the endpoint returns 503 Service Unavailable with an error message.
-
-For production-grade checks, consider using `Microsoft.Extensions.Diagnostics.HealthChecks` and registering health checks in `Program.cs`.
-
-## Integration tests (basic)
-
-A sample integration test project `tests/WebAPIPrime.IntegrationTests` is included to demonstrate testing the health endpoint and basic orders/inventory flows.
-
-Running tests:
-
-1. From the solution root run:
-
-   dotnet test
-
-2. The sample tests use `WebApplicationFactory<TEntryPoint>` to host the app in-memory. Configure an in-memory or test database connection in `appsettings.Test.json` or override the `DbContext` in the test factory.
-
-Notes and recommendations:
-
-- Use an in-memory SQLite provider or a test container (Docker) for a transient database during tests.
-- Ensure the tests seed necessary data before executing assertions.
-- Mark long-running integration tests separately so they can be excluded from quick unit-test runs.
-
-Generated for developer session in Visual Studio 2026.
-
-## Contribution notes
-- When adding or updating handlers that modify both `Products` and `Inventory`, wrap database operations in a transaction (`_context.Database.BeginTransactionAsync(...)`) to ensure consistency and enable rollback on failure.
-- Always `await` EF Core async methods.
-- Use `AsNoTracking()` for read-only queries where appropriate.
-
-## Contact / Remotes
-- Remote origin: `https://github.com/MahafuzulHuq/WebAPIPrime`
-- Active branch: `master`
-
-## Next steps (suggested)
-- Add a top-level `README.md` with instructions to seed the database and run migrations.
-- Add health checks and basic integration tests for orders and inventory flows.
-
+Notes
+- This README provides a concise starting point. Check the project for a `Dockerfile`, `docker-compose.yml`, and `appsettings.*.json` files for project-specific configuration and ports.
+- 
 Generated for developer session in Visual Studio 2026.
