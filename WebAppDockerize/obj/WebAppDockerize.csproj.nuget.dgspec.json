@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\VS2026Projects\\WebAppDockerize\\WebAppDockerize\\WebAppDockerize.csproj": {}
+    "F:\\VS2026Projects\\DockerizeProjects\\WebAppDockerize\\WebAppDockerize\\WebAppDockerize.csproj": {}
   },
   "projects": {
-    "F:\\VS2026Projects\\WebAppDockerize\\WebAppDockerize\\WebAppDockerize.csproj": {
+    "F:\\VS2026Projects\\DockerizeProjects\\WebAppDockerize\\WebAppDockerize\\WebAppDockerize.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\VS2026Projects\\WebAppDockerize\\WebAppDockerize\\WebAppDockerize.csproj",
+        "projectUniqueName": "F:\\VS2026Projects\\DockerizeProjects\\WebAppDockerize\\WebAppDockerize\\WebAppDockerize.csproj",
         "projectName": "WebAppDockerize",
-        "projectPath": "F:\\VS2026Projects\\WebAppDockerize\\WebAppDockerize\\WebAppDockerize.csproj",
+        "projectPath": "F:\\VS2026Projects\\DockerizeProjects\\WebAppDockerize\\WebAppDockerize\\WebAppDockerize.csproj",
         "packagesPath": "C:\\Users\\windows 10\\.nuget\\packages\\",
-        "outputPath": "F:\\VS2026Projects\\WebAppDockerize\\WebAppDockerize\\obj\\",
+        "outputPath": "F:\\VS2026Projects\\DockerizeProjects\\WebAppDockerize\\WebAppDockerize\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -69,22 +69,6 @@
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
               "version": "[9.0.0, )"
-            },
-            "Swashbuckle.AspNetCore": {
-              "target": "Package",
-              "version": "[10.1.7, )"
-            },
-            "Swashbuckle.AspNetCore.Swagger": {
-              "target": "Package",
-              "version": "[10.1.7, )"
-            },
-            "Swashbuckle.AspNetCore.SwaggerGen": {
-              "target": "Package",
-              "version": "[10.1.7, )"
-            },
-            "Swashbuckle.AspNetCore.SwaggerUI": {
-              "target": "Package",
-              "version": "[10.1.7, )"
             }
           },
           "imports": [
@@ -98,24 +82,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[9.0.16, 9.0.16]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[9.0.16, 9.0.16]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[9.0.16, 9.0.16]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[9.0.16, 9.0.16]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"

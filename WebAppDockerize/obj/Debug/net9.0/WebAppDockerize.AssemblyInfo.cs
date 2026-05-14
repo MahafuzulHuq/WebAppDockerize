@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("WebAppDockerize")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a683b00afada074c28f75a58471abe157890f34c")]
 [assembly: System.Reflection.AssemblyProductAttribute("WebAppDockerize")]
 [assembly: System.Reflection.AssemblyTitleAttribute("WebAppDockerize")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
